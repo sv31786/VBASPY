@@ -18,4 +18,5 @@ Sub FetchItems()
     intS = InStr(1, strBody, "Phone:", vbTextCompare) + Len("Phone:")
     intE = InStr(intS, strBody, "<", vbTextCompare)
 
-    MsgB
+    MsgBox Mid(strBody, intS, intE - intS)
+End Sub
