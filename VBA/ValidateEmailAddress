@@ -1,0 +1,24 @@
+Public Function IsValidEmail(ToLine As String) As Boolean
+    Dim olApp As Object 'Outlook.Application
+    Dim mail As Object 'Outlook.MailItem
+    On Error Resume Next
+    Set olApp = GetObject(, "Outlook.Application")
+    If Err.Number = 429 Then
+        Set olApp = CreateObject("Outlook.Application")
+    End If
+    On Error GoTo 0
+    Set mail = olApp.CreateItem(0)
+    Dim rp As Object 'Outlook.Recipient
+    With mail
+        .To = ToLine
+        .Recipients.ResolveAll
+        For Each rp In .Recipients
+            If rp.Address & "" = "" Then
+                mail.Delete
+                Exit Function
+            End If
+        Next
+    End With
+    mail.Delete
+    IsValidEmail = True
+End Function
