@@ -1,2 +1,0 @@
-# VBASPY
-VBA Libraries
