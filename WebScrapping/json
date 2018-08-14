@@ -1,0 +1,39 @@
+Sub testMovie2()
+
+    Dim url As String, data As String, data2 As String
+    Dim xml As Object, JSON As Object, JSON2 As Object, colObj As Object, colobj2 As Object, item, item2
+    Dim strID As String, strTitle As String
+
+    url = "https://www.tiff.net/data/films-events-2018.json"
+    data = getHTTP(url)
+    Set JSON = JsonConverter.ParseJson(data)
+    Set colObj = JSON("items")
+    For Each item In colObj
+        url = "https://www.tiff.net/data/films/" & item("id") & ".JSON"
+        data2 = getHTTP(url)
+
+        Set JSON2 = JsonConverter.ParseJson(data2)
+        strID = JSON2.item("id")
+        Debug.Print strID
+
+        strTitle = JSON2.item("title")
+        Debug.Print strTitle
+
+    Next
+End Sub
+Function getHTTP(url) As String
+
+    Dim data As String
+    Dim xml As Object
+
+    Set xml = CreateObject("MSXML2.ServerXMLHTTP")
+    With xml
+        .Open "GET", url, False
+        .setRequestHeader "Content-Type", "text/json"
+        .send
+        data = .responseText
+    End With
+
+    getHTTP = data
+
+End Function
