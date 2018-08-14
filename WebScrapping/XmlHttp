@@ -1,0 +1,21 @@
+Sub FetchItems()
+   Dim URL As String, strBody As String
+   Dim intS As Long, intE As Long
+
+    URL = "https://www.nafe.com/bakersfield-nafe-network"
+
+    Dim xml As Object
+    Set xml = CreateObject("MSXML2.XMLHTTP")
+    xml.Open "GET", URL, False
+    xml.send
+
+    Dim html As Object
+    Set html = CreateObject("htmlfile")
+    html.body.innerHTML = xml.responseText
+
+    strBody = html.body.innerHTML
+
+    intS = InStr(1, strBody, "Phone:", vbTextCompare) + Len("Phone:")
+    intE = InStr(intS, strBody, "<", vbTextCompare)
+
+    MsgB
